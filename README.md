@@ -1,6 +1,6 @@
 # CRUD Node.js + Docker + CI/CD
 
-Projeto completo de exemplo contendo:
+Projeto completo contendo:
 - API REST em Node.js (Express)
 - CRUD com banco SQLite
 - Frontend simples em HTML consumindo a API
