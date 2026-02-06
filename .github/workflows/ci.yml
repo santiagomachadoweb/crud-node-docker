@@ -1,4 +1,4 @@
-name: CI - Build Docker Image
+name: CI/CD - Build and Push Docker Image
 
 on:
   push:
@@ -12,13 +12,17 @@ jobs:
       - name: Baixar código
         uses: actions/checkout@v4
 
-      - name: Build da imagem Docker
-        run: docker build -t crud-node .
+      - name: Login no Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Subir container
-        run: docker run -d -p 3000:3000 crud-node
+      - name: Build da imagem
+        run: docker build -t santiagomachadoweb10/crud-node .
 
-      - name: Testar se API responde
+      - name: Push da imagem para o Docker Hub
+        run: docker push santiagomachadoweb10/crud-node
+
+      - name: Teste rápido da API
         run: |
+          docker run -d -p 3000:3000 santiagomachadoweb10/crud-node
           sleep 5
           curl http://localhost:3000
