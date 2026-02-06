@@ -1,0 +1,24 @@
+name: CI - Build Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Build da imagem Docker
+        run: docker build -t crud-node .
+
+      - name: Subir container
+        run: docker run -d -p 3000:3000 crud-node
+
+      - name: Testar se API responde
+        run: |
+          sleep 5
+          curl http://localhost:3000
